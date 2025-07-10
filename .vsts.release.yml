@@ -64,7 +64,7 @@ parameters:
   default: false
   displayName: Disable Teams Notifications
 
-- name: releaseNotes
+- name: generateReleaseNotes
   type: boolean
   default: true
   displayName: Generate Release Notes
