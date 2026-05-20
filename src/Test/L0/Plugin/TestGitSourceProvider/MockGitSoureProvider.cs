@@ -9,9 +9,16 @@ namespace Test.L0.Plugin.TestGitSourceProvider
 {
     public class MockGitSoureProvider : GitSourceProvider
     {
+        public MockGitSoureProvider(MockGitCliManager gitCliManager = null)
+        {
+            GitCliManager = gitCliManager ?? new MockGitCliManager();
+        }
+
+        public MockGitCliManager GitCliManager { get; }
+
         protected override GitCliManager GetCliManager(Dictionary<string, string> gitEnv = null)
         {
-            return new MockGitCliManager();
+            return GitCliManager;
         }
 
         protected override string GetWISCToken(ServiceEndpoint endpoint, AgentTaskPluginExecutionContext executionContext, CancellationToken cancellationToken)
