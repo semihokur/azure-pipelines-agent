@@ -11,6 +11,7 @@ namespace Test.L0.Plugin.TestGitSourceProvider
     {
         public List<string> GitCommandCallsOptions = new List<string>();
         public bool IsLfsConfigExistsing = false;
+        public string FetchUrlReturnValue { get; set; }
         public override Task<Version> GitVersion(AgentTaskPluginExecutionContext context)
         {
             return Task.FromResult(new Version("2.30.2"));
@@ -23,6 +24,13 @@ namespace Test.L0.Plugin.TestGitSourceProvider
 
         protected override Task<int> ExecuteGitCommandAsync(AgentTaskPluginExecutionContext context, string repoRoot, string command, string options, IList<string> output)
         {
+            if (command == "config" &&
+                options == "--get remote.origin.url" &&
+                !string.IsNullOrEmpty(FetchUrlReturnValue))
+            {
+                output.Add(FetchUrlReturnValue);
+            }
+
             return Task.FromResult(0);
         }
 
